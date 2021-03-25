@@ -42,4 +42,5 @@ defmodule RumblWeb.Channels.VideoChannelTest do
     assert_broadcast("new_annotation", %{body: "1 + 1", at: 123})
     assert_broadcast("new_annotation", %{body: "2", at: 123})
   end
+  #
 end
