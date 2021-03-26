@@ -9,6 +9,13 @@ defmodule RumblWeb.Channels.VideoChannelTest do
     token = Phoenix.Token.sign(@endpoint, "user socket", user.id)
     {:ok, socket} = connect(RumblWeb.UserSocket, %{"token" => token})
 
+    on_exit(fn ->
+      for pid <- Task.Supervisor.children(RumblWeb.Presence.TaskSupervisor) do
+        ref = Process.monitor(pid)
+        assert_receive {:DOWN, ^ref, _, _, _}, 1000
+      end
+    end)
+
     {:ok, socket: socket, user: user, video: video}
   end
 
